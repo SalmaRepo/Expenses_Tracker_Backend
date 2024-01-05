@@ -1,12 +1,45 @@
 import Expenses from "../models/expenseSchema.js";
+import User from "../models/userSchema.js";
+
+
 
 export const createExpense=async (req,res,next)=>{
-    try{
-    const createExpense=await Expenses.create(req.body);
-    res.send({success:true,data:createExpense})
-    }catch(err){
-       next(err)
-    }
+    console.log(req.body)
+    console.log(req.files)
+
+    let sampleFile;
+    let uploadPath;
+
+    sampleFile = req.files.file;
+    uploadPath =  'assets/'+Date.now() +"_"  + sampleFile.name;
+
+    sampleFile.mv(uploadPath, async function(err) {
+        
+       
+            const createExpense=await Expenses.create({
+                amount:req.body.amount,
+                category:req.body.category,
+                date:req.body.date,
+                userId:req.body.userId,
+                reciept:uploadPath
+            });
+     
+            const updateUserExpenses=await User.findByIdAndUpdate(req.body.userId, { $push: { expenses: {$each:[createExpense._id],$position:0} } }, { new: true })
+            .populate({ path: "expenses"})
+            console.log(updateUserExpenses)
+            res.json({success:true,data:updateUserExpenses})
+        console.log('File uploaded!');
+      });
+
+      
+
+    /* const image={
+        filename:Date.now() +"_" +req.files?.file.name , 
+        data : req.files?.file.data
+    } */
+
+    
+    
 }
 
 export const updateExpense=async (req,res,next)=>{
