@@ -19,7 +19,9 @@ app.use(morgan("tiny"));
 DBConnection(); //DB Connection in config file
 
 //cors connection
-app.use(cors({origin: "http://localhost:5173", exposedHeaders: ["token"]}));
+
+app.use(cors({origin: "http://localhost:5173", exposedHeaders: ["token"]})); 
+
 
 
 //routers
