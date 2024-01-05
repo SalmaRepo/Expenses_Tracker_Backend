@@ -16,7 +16,7 @@ import {
   deleteUser,
 } from "../controllers/usersController.js";
 
-router.post("/register", userValidation,register);
+router.post("/signUp", userValidation,register);
 router.post("/login", login);
 router.patch("/updateUserById/:id", auth, isAdmin,updateUserById);
 router.get("/getUserById/:id", auth, isAdmin,getUserById);
