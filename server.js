@@ -2,17 +2,20 @@ import express from "express"
 import dotenv from "dotenv"
 import morgan from "morgan"
 import cors from "cors"
+import fileUpload from "express-fileupload"
 import DBConnection from "./config/index.js"
 import usersRouter from "./routers/usersRouter.js";
 import expensesRouter from "./routers/expensesRouter.js"
 import incomeRouter from "./routers/incomeRouter.js"
 
+
 dotenv.config();
 
 const app=express();
-
-app.use(express.json());
+app.use(express.static("./assets"))
+app.use(express.json({limit:"100mb"}));
 app.use(morgan("tiny"));
+app.use(fileUpload())
 
 
 //DB Connection

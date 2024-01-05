@@ -36,7 +36,7 @@ export const login = async (req, res, next) => {
         const token = jwt.sign(
           { _id: foundUser._id, email: foundUser.email },
           process.env.SECRET_KEY,
-          { issuer: "TeamExpenses", expiresIn: "5h" }
+          { issuer: "TeamExpenses", expiresIn: "24h" }
         );
 
         console.log(token);
@@ -47,7 +47,7 @@ export const login = async (req, res, next) => {
           .send({
             success: true,
 /*             data: foundUser.populate("expenses").populate("incomes"), */
-           data: foundUser
+           data: foundUser.populate({path:"expenses"})
           });
         /* res.cookie("token",token).send({msg: "welcome back", foundUser}); */
       } else {
@@ -77,7 +77,7 @@ export const getAllUsers = async (req, res, next) => {
 
 export const getUserById = async (req, res, next) => {
   try {
-    const getSingleUser = await User.findById(req.params.id);
+    const getSingleUser = await User.findById(req.params.id).populate({path:"expenses"});
     if (getSingleUser) {
       res.send({ success: true, data: getSingleUser });
     } else {
