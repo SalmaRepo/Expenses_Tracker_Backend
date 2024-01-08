@@ -1,7 +1,6 @@
 import Incomes from "../models/incomeSchema.js";
 import User from "../models/userSchema.js";
 
-
 // CREATE
 export const createIncome = async (req, res, next) => {
   try {
@@ -11,20 +10,21 @@ export const createIncome = async (req, res, next) => {
     });
 
     console.log("createdIncome._id:", createdIncome._id);
-    
+
     // Update the user's incomes array
     try {
-      await User.findByIdAndUpdate(req.user.id, { $push: { incomes: createdIncome._id } });
-      } catch (error) {
-         console.error("Error updating user income:", error);}
-  
+      await User.findByIdAndUpdate(req.user.id, {
+        $push: { incomes: createdIncome._id },
+      });
+    } catch (error) {
+      console.error("Error updating user income:", error);
+    }
 
     res.send({ success: true, data: createdIncome });
   } catch (err) {
     next(err);
   }
 };
-
 
 // UPDATE
 export const updateIncome = async (req, res, next) => {
@@ -43,7 +43,14 @@ export const updateIncome = async (req, res, next) => {
 // DELETE
 export const deleteIncome = async (req, res, next) => {
   try {
-    const deleteIncome = await Incomes.findByIdAndDelete(req.params.id);
+    const deletedIncome = await Incomes.findByIdAndDelete(req.params.id);
+    console.log("deleted incomes", deletedIncome);
+
+    // remove income from user array
+    await User.findByIdAndUpdate(req.user.id, {
+      $pull: { incomes: req.params.id },
+    });
+
     res.send({ success: true, msg: "income deleted" });
   } catch (err) {
     next(err);
@@ -70,7 +77,6 @@ export const getIncomesByUser = async (req, res, next) => {
     next(err);
   }
 };
-
 
 // GET ALL
 export const getAllIncomes = async (req, res, next) => {

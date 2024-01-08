@@ -14,11 +14,11 @@ import {
   getIncomesByUser,
 } from "../controllers/incomeController.js";
 
-router.post("/createIncome",auth,isAdmin, createIncome);
-router.patch("/updateIncome/:id",auth,isAdmin, updateIncome);
-router.delete("/deleteIncome/:id",auth,isAdmin, deleteIncome);
-router.get("/getIncomeById/:id",auth,isAdmin, getIncomeById);
-router.get("/getAllIncomes",auth,isAdmin, getAllIncomes);
+router.post("/createIncome", auth, isAdmin, createIncome);
+router.patch("/updateIncome/:id", auth, isAdmin, updateIncome);
+router.delete("/deleteIncome/:id", auth, isAdmin, deleteIncome);
+router.get("/getIncomeById/:id", auth, isAdmin, getIncomeById);
+router.get("/getAllIncomes", auth, isAdmin, getAllIncomes);
 
 router.get("/getIncomesByUser", auth, isAdmin, getIncomesByUser);
 
