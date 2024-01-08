@@ -22,7 +22,7 @@ export const login = async (req, res, next) => {
     const foundUser = await User.findOne({
       email: req.body.email,
       /*  password: req.body.password, */
-    });
+    }).populate({ path: "expenses"});
 
     console.log(foundUser)
 
@@ -46,8 +46,10 @@ export const login = async (req, res, next) => {
           .header("token", token)
           .send({
             success: true,
-/*             data: foundUser.populate("expenses").populate("incomes"), */
-           data: foundUser.populate({path:"expenses"})
+/*         data: foundUser.populate("expenses").populate("incomes"), */
+          /*  data: foundUser.populate({path:"expenses"}) */
+
+          data:foundUser
           });
         /* res.cookie("token",token).send({msg: "welcome back", foundUser}); */
       } else {
