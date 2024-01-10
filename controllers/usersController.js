@@ -113,3 +113,18 @@ export const deleteUser = async (req, res, next) => {
     next(err);
   }
 };
+
+export const updateCurrencyById=async (req, res, next) => {
+  console.log(req.body)
+  try {
+    const updateSingleUser = await User.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    console.log(updateSingleUser)
+    res.send({ success: true, data: updateSingleUser });
+  } catch (err) {
+    next(err);
+  }
+};
