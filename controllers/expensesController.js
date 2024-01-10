@@ -112,6 +112,7 @@ export const getAllExpenses = async (req, res, next) => {
 // GET BY USER
 export const getExpensesByUser = async (req, res, next) => {
   try {
+
     //console.log("USER",req.user);
     const userId = req.user._id;
     const userExpenses = await Expenses.find({ userId });
