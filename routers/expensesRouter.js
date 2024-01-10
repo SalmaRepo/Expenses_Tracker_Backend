@@ -8,14 +8,16 @@ import { createExpense,
 updateExpense,
 deleteExpense,
 getAllExpenses,
-getExpenseById } from "../controllers/expensesController.js";
+getExpenseById, 
+getExpensesByUser} from "../controllers/expensesController.js";
 
 router.post("/createExpense",auth,isAdmin,createExpense);
 router.patch("/updateExpense/:id",auth,isAdmin,updateExpense);
 router.delete("/delteExpense/:id",auth,isAdmin,deleteExpense);
 router.get("/getExpenseById/:id",auth,isAdmin,getExpenseById);
 router.get("/getAllExpenses",auth,isAdmin,getAllExpenses);
-router.get("/getExpensesByUser",auth,isAdmin,getAllExpenses);
+router.get("/getExpensesByUser",auth,isAdmin,getExpensesByUser);
+
 
 
 export default router

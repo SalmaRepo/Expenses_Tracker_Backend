@@ -11,8 +11,7 @@ export const auth= async (req,res,next)=>{
             // {_id: "dsfsea4w4222",email:"test123@gmail.com"}
             const user = await User.findById(payload._id)
             req.user=user;
-            console.log(req.user)
-
+            //console.log(req.user)
             next() // forwarding request to next middleware 
         }
     }
