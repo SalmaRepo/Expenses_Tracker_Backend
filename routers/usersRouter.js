@@ -14,11 +14,14 @@ import {
   getUserById,
   getAllUsers,
   deleteUser,
+  updateUserDetailsByID,
+
 } from "../controllers/usersController.js";
 
 router.post("/signUp", userValidation,register);
 router.post("/login", login);
 router.patch("/updateUserById/:id", auth, isAdmin,updateUserById);
+router.patch("/updateUserDetailsById", auth,updateUserDetailsByID);
 router.get("/getUserById/:id", auth, isAdmin,getUserById);
 router.get("/getAllUsers", auth,isAdmin,getAllUsers);
 router.delete("/deleteUser/:id",auth, isAdmin, deleteUser);
