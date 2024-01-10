@@ -79,7 +79,9 @@ export const getAllUsers = async (req, res, next) => {
 
 export const getUserById = async (req, res, next) => {
   try {
-    const getSingleUser = await User.findById(req.params.id).populate({path:"expenses"});
+    console.log("fetching balance")
+    const getSingleUser = await User.findById(req.params.id).populate({path:"expenses incomes"});
+    console.log(getSingleUser)
     if (getSingleUser) {
       res.send({ success: true, data: getSingleUser });
     } else {
@@ -107,7 +109,6 @@ export const updateUserById = async (req, res, next) => {
 export const deleteUser = async (req, res, next) => {
   try {
     const deleteUser = await User.findByIdAndDelete(req.params.id);
-
     res.send({ success: true, msg: "user deleted" });
   } catch (err) {
     next(err);

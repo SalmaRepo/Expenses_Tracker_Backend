@@ -112,10 +112,11 @@ export const getAllExpenses = async (req, res, next) => {
 // GET BY USER
 export const getExpensesByUser = async (req, res, next) => {
   try {
-    console.log(req.user.id);
-    const userId = req.user.id;
+
+    //console.log("USER",req.user);
+    const userId = req.user._id;
     const userExpenses = await Expenses.find({ userId });
-    console.log(userExpenses)
+    //console.log("user expenses -->", userExpenses)
     res.send({ success: true, data: userExpenses });
   } catch (err) {
     next(err);
