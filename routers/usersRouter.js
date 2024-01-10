@@ -14,11 +14,13 @@ import {
   getUserById,
   getAllUsers,
   deleteUser,
+  updateCurrencyById
 } from "../controllers/usersController.js";
 
 router.post("/signUp", userValidation,register);
 router.post("/login", login);
 router.patch("/updateUserById/:id", auth, isAdmin,updateUserById);
+router.patch("/updateCurrencyById/:id", auth, isAdmin,updateCurrencyById);
 router.get("/getUserById/:id", auth, isAdmin,getUserById);
 router.get("/getAllUsers", auth,isAdmin,getAllUsers);
 router.delete("/deleteUser/:id",auth, isAdmin, deleteUser);

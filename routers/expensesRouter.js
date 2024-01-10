@@ -11,6 +11,7 @@ getAllExpenses,
 getExpenseById, 
 getExpensesByUser} from "../controllers/expensesController.js";
 
+
 router.post("/createExpense",auth,isAdmin,createExpense);
 router.patch("/updateExpense/:id",auth,isAdmin,updateExpense);
 router.delete("/delteExpense/:id",auth,isAdmin,deleteExpense);

@@ -9,6 +9,7 @@ const userSchema=new Schema({
     expenses:[{type:Schema.Types.ObjectId,ref:"expenses"}],
     incomes:[{type:Schema.Types.ObjectId,ref:"incomes"}],
     userImage:{type:String},
+    currency:{type:String}
     /* isVerify: { type: Boolean, default: false },
     randomToken:{type:String} */
 })
