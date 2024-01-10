@@ -22,7 +22,7 @@ export const login = async (req, res, next) => {
     const foundUser = await User.findOne({
       email: req.body.email,
       /*  password: req.body.password, */
-    });
+    }).populate({ path: "expenses"});
 
     console.log(foundUser);
 
@@ -42,11 +42,17 @@ export const login = async (req, res, next) => {
         console.log(token);
         //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTViNjMwZDY3OGYxMWI0ZDFmYjUxMDgiLCJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNzAwNDg3OTkwLCJleHAiOjE3MDA0OTE1OTAsImlzcyI6Ik5hcXZpIn0.7gTRNYIRHsFx3wGakdIgmuWgYOev95bYN42ErvfHLyA
         /*       res.send({msg: "welcome back", foundUser, token}); */
-        res.header("token", token).send({
-          success: true,
-          /*             data: foundUser.populate("expenses").populate("incomes"), */
-          data: foundUser.populate({ path: "expenses" }),
-        });
+
+        res
+          .header("token", token)
+          .send({
+            success: true,
+/*         data: foundUser.populate("expenses").populate("incomes"), */
+          /*  data: foundUser.populate({path:"expenses"}) */
+
+          data:foundUser
+          });
+
         /* res.cookie("token",token).send({msg: "welcome back", foundUser}); */
       } else {
         res
@@ -75,9 +81,11 @@ export const getAllUsers = async (req, res, next) => {
 
 export const getUserById = async (req, res, next) => {
   try {
-    const getSingleUser = await User.findById(req.params.id).populate({
-      path: "expenses",
-    });
+
+    console.log("fetching balance")
+    const getSingleUser = await User.findById(req.params.id).populate({path:"expenses incomes"});
+    console.log(getSingleUser)
+
     if (getSingleUser) {
       res.send({ success: true, data: getSingleUser });
     } else {
@@ -121,8 +129,22 @@ export const updateUserDetailsByID = async (req, res, next) => {
 export const deleteUser = async (req, res, next) => {
   try {
     const deleteUser = await User.findByIdAndDelete(req.params.id);
-
     res.send({ success: true, msg: "user deleted" });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updateCurrencyById=async (req, res, next) => {
+  console.log(req.body)
+  try {
+    const updateSingleUser = await User.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    console.log(updateSingleUser)
+    res.send({ success: true, data: updateSingleUser });
   } catch (err) {
     next(err);
   }
