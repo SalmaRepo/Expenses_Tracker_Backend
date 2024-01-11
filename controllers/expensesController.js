@@ -13,17 +13,24 @@ export const createExpense = async (req, res, next) => {
   } else {
     sampleFile = "";
   }
+  const filePath= Date.now() + "_" + sampleFile.name
+  uploadPath = "assets/" +filePath;
 
-  uploadPath = "assets/" + Date.now() + "_" + sampleFile.name;
+  if(sampleFile){
+    sampleFile?.mv(uploadPath, async function(err) { 
+      if(err){
+        console.log(err)
+      }
+    })
+  }
 
-  /*  sampleFile.mv(uploadPath, async function(err) { */
 
   const createExpense = await Expenses.create({
     amount: req.body.amount,
     category: req.body.category,
     date: req.body.date,
     userId: req.body.userId,
-    reciept: uploadPath,
+    reciept: filePath,
   });
 
   const updateUserExpenses = await User.findByIdAndUpdate(
@@ -35,7 +42,8 @@ export const createExpense = async (req, res, next) => {
   console.log(updateUserExpenses);
   res.json({ success: true, data: updateUserExpenses });
   console.log("File uploaded!");
-  /*    }); */
+   
+  
 
   /* const image={
         filename:Date.now() +"_" +req.files?.file.name , 
