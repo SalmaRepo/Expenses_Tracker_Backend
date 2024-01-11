@@ -7,15 +7,18 @@ import DBConnection from "./config/index.js"
 import usersRouter from "./routers/usersRouter.js";
 import expensesRouter from "./routers/expensesRouter.js"
 import incomeRouter from "./routers/incomeRouter.js"
+import fs from "fs";
+import fileUpload from "express-fileupload"
 
 
 dotenv.config();
 
 const app=express();
-app.use(express.static("./assets"))
+app.use(express.static('./assets/'))
 app.use(express.json({limit:"100mb"}));
 app.use(morgan("tiny"));
 app.use(fileUpload())
+
 
 
 //DB Connection
