@@ -4,18 +4,34 @@ import jwt from "jsonwebtoken";
 /* import nodemailer from "nodemailer" */
 
 export const register = async (req, res, next) => {
-  try {
+  let sampleFile;
+  let uploadPath;
+console.log(req.files)
+  if (req.files) {
+    sampleFile = req.files.userImage;
+  } else {
+    sampleFile = "";
+  }
+  console.log(sampleFile)
+  const imagePath = Date.now() + "_" + sampleFile.name;
+  uploadPath = "assets/" + Date.now() + "_" + sampleFile.name;
+  
     const hashedPassword = bcrypt.hashSync(req.body.password, 10);
     console.log(hashedPassword);
+    sampleFile.mv(uploadPath, async function(err) {
+    //const getImage = await ImageModel.find()
+
     const newUser = await User.create({
       ...req.body,
       password: hashedPassword,
+      userImage: imagePath
+      
     });
     res.status(200).send(newUser);
-  } catch (err) {
-    next(err);
-  }
+})  
+ 
 };
+
 
 export const login = async (req, res, next) => {
   try {

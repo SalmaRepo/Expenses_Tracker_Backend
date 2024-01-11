@@ -22,6 +22,7 @@ router.patch("/updateUserById/:id", auth, isAdmin,updateUserById);
 router.get("/getUserById/:id", auth, isAdmin,getUserById);
 router.get("/getAllUsers", auth,isAdmin,getAllUsers);
 router.delete("/deleteUser/:id",auth, isAdmin, deleteUser);
+//router.patch("/updateimageUser", updateImage)
 router.get("/verifytoken", auth, (req, res) => {
     res.send({ success: true, data: req.user })
   })
