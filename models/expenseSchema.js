@@ -1,13 +1,28 @@
-import {Schema,model} from  "mongoose"
+import { Schema, model } from "mongoose";
 
-const expenseSchema=new Schema({
-    amount:{type:Number},
-    category: {type: String, enum: ["Food", "Shopping", "Fuel", "Telephone","Pets","Holidays","Kids","Insurance","Energy","Rent","others"]},
-    date:{type:Date,default:new Date()},
-    reciept:{type:String}
+const expenseSchema = new Schema({
+  amount: { type: Number },
+  category: {
+    type: String,
+    enum: [
+      "food",
+      "shopping",
+      "fuel",
+      "telephone",
+      "pets",
+      "holidays",
+      "kids",
+      "insurance",
+      "energy",
+      "rent",
+      "others",
+    ],
+  },
+  date: { type: Date, default: new Date() },
+  reciept: { type: String },
+  userId: { type: String },
+});
 
-})
+const Expenses = model("expenses", expenseSchema);
 
-const Expenses=model("expenses",expenseSchema)
-
-export default Expenses
+export default Expenses;
