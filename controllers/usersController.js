@@ -61,7 +61,7 @@ export const login = async (req, res, next) => {
       }
     } else {
       // if there is no user found, then send this response
-      res.send({ success: false, message: "Make sure your email is correct!" });
+      res.send({ success: false, message: "This email is not registered, please create an account" });
       /* res.json("Make sure your email is correct!") */
     }
   } catch (err) {

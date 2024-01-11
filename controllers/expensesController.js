@@ -72,19 +72,21 @@ export const updateExpense = async (req, res, next) => {
 
 export const deleteExpense = async (req, res, next) => {
   try {
-    const deleteExpense = await Expenses.findByIdAndDelete(req.params.id, {
-      new: true,
-    });
+    const deleteExpense = await Expenses.findByIdAndDelete(req.params.id);
 
-    const getExpenses = await Expenses.find();
+/*     const getExpenses = await Expenses.find(); */
 
     /* console.log(getExpenses) */
 
-    const getExpensesIds=getExpenses.map(exp=>exp._id)
+   /*  const getExpensesIds=getExpenses.map(exp=>exp._id) */
    /*  console.log(getExpensesIds) */
-
-    const updateUser = await User.findByIdAndUpdate(req.user.id,{$set:{expenses:getExpensesIds}});
-   /*   console.log('updateuser',updateUser) */
+/* 
+    const updateUser = await User.findByIdAndUpdate(req.user.id,{$set:{expenses:getExpensesIds}}); */
+    await User.findByIdAndUpdate(req.user.id,{
+      $pull: { expenses: req.params.id },
+    },{
+      new: true,
+    })
     res.send({ success: true, msg: "expense deleted" });
   } catch (err) {
     next(err);
