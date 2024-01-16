@@ -16,10 +16,16 @@ export const register = async (req, res, next) => {
   const imagePath = Date.now() + "_" + sampleFile.name;
   uploadPath = "assets/" + Date.now() + "_" + sampleFile.name;
 
-  const hashedPassword = bcrypt.hashSync(req.body.password, 10);
-  console.log(hashedPassword);
-  sampleFile.mv(uploadPath, async function (err) {
-    //const getImage = await ImageModel.find()
+  
+    const hashedPassword = bcrypt.hashSync(req.body.password, 10);
+    console.log(hashedPassword);
+    if(sampleFile){
+      sampleFile?.mv(uploadPath, async function(err) { 
+        if(err){
+          console.log(err)
+        }
+      })
+    }
 
     const newUser = await User.create({
       ...req.body,
@@ -27,7 +33,6 @@ export const register = async (req, res, next) => {
       userImage: imagePath,
     });
     res.status(200).send(newUser);
-  });
 };
 
 export const login = async (req, res, next) => {
