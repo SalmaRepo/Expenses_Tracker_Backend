@@ -8,6 +8,7 @@ const expenseSchema = new Schema({
       "food",
       "shopping",
       "fuel",
+      "entertainment",
       "telephone",
       "pets",
       "holidays",

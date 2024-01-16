@@ -18,7 +18,22 @@ console.log(req.files)
   
     const hashedPassword = bcrypt.hashSync(req.body.password, 10);
     console.log(hashedPassword);
-    sampleFile.mv(uploadPath, async function(err) {
+    if(sampleFile){
+      sampleFile?.mv(uploadPath, async function(err) { 
+        if(err){
+          console.log(err)
+        }
+      })
+    }
+
+    if(sampleFile){
+      sampleFile?.mv(uploadPath, async function(err) { 
+        if(err){
+          console.log(err)
+        }
+      })
+    }
+   
     //const getImage = await ImageModel.find()
 
     const newUser = await User.create({
@@ -28,7 +43,7 @@ console.log(req.files)
       
     });
     res.status(200).send(newUser);
-})  
+  
  
 };
 
