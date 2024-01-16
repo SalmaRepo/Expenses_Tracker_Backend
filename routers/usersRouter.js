@@ -15,7 +15,8 @@ import {
   getAllUsers,
   deleteUser,
   updateUserDetailsByID,
-  updateCurrencyById
+  updateCurrencyById,
+  changeProfileImg
 
 } from "../controllers/usersController.js";
 
@@ -30,5 +31,7 @@ router.delete("/deleteUser/:id",auth, isAdmin, deleteUser);
 router.get("/verifytoken", auth, (req, res) => {
     res.send({ success: true, data: req.user })
   })
+
+router.patch("/changeProfileImg", auth, changeProfileImg);
 
 export default router;
