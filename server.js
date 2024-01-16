@@ -8,7 +8,7 @@ import usersRouter from "./routers/usersRouter.js";
 import expensesRouter from "./routers/expensesRouter.js"
 import incomeRouter from "./routers/incomeRouter.js"
 import fs from "fs";
-import fileUpload from "express-fileupload"
+
 
 
 dotenv.config();
