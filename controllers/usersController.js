@@ -27,12 +27,17 @@ export const register = async (req, res, next) => {
       })
     }
 
-    const newUser = await User.create({
-      ...req.body,
-      password: hashedPassword,
-      userImage: imagePath,
-    });
-    res.status(200).send(newUser);
+    try{
+      const newUser = await User.create({
+        ...req.body,
+        password: hashedPassword,
+        userImage: imagePath,
+      });
+      res.status(200).send(newUser);
+    }catch(err){
+      next(err)
+    }
+    
 };
 
 export const login = async (req, res, next) => {
