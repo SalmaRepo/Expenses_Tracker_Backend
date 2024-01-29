@@ -32,7 +32,7 @@ export const userValidation =
             .withMessage("password should be given") 
             .trim()
             .isLength({ min: 6 }, { max: 16 })
-            .withMessage("password length should be between 8 and 16")
+            .withMessage("password length should be between 6 and 16")
         /*     .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/, "i") */
             
             ,
