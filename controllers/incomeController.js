@@ -8,10 +8,6 @@ export const createIncome = async (req, res, next) => {
       ...req.body,
       userId: req.user.id,
     });
-
-    console.log("createdIncome._id:", createdIncome._id);
-
-    // Update the user's incomes array
     try {
       await User.findByIdAndUpdate(req.user.id, {
         $push: { incomes: createdIncome._id },
@@ -19,7 +15,6 @@ export const createIncome = async (req, res, next) => {
     } catch (error) {
       console.error("Error updating user income:", error);
     }
-
     res.send({ success: true, data: createdIncome });
   } catch (err) {
     next(err);
@@ -44,13 +39,9 @@ export const updateIncome = async (req, res, next) => {
 export const deleteIncome = async (req, res, next) => {
   try {
     const deletedIncome = await Incomes.findByIdAndDelete(req.params.id);
-    console.log("deleted incomes", deletedIncome);
-
-    // remove income from user array
     await User.findByIdAndUpdate(req.user.id, {
       $pull: { incomes: req.params.id },
     });
-
     res.send({ success: true, msg: "income deleted" });
   } catch (err) {
     next(err);
