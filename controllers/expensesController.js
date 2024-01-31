@@ -1,29 +1,25 @@
 import Expenses from "../models/expenseSchema.js";
 import User from "../models/userSchema.js";
 
+// CREATE
 export const createExpense = async (req, res, next) => {
-  /*   console.log(req.body)
-    console.log(req.files) */
-
   let sampleFile;
   let uploadPath;
-
   if (req.files) {
     sampleFile = req.files.file;
   } else {
     sampleFile = "";
   }
-  const filePath= Date.now() + "_" + sampleFile.name
-  uploadPath = "assets/" +filePath;
+  const filePath = Date.now() + "_" + sampleFile.name;
+  uploadPath = "assets/" + filePath;
 
-  if(sampleFile){
-    sampleFile?.mv(uploadPath, async function(err) { 
-      if(err){
-        console.log(err)
+  if (sampleFile) {
+    sampleFile?.mv(uploadPath, async function (err) {
+      if (err) {
+        console.log(err);
       }
-    })
+    });
   }
-
 
   const createExpense = await Expenses.create({
     amount: req.body.amount,
@@ -35,41 +31,34 @@ export const createExpense = async (req, res, next) => {
 
   const updateUserExpenses = await User.findByIdAndUpdate(
     req.body.userId,
-    /*  { $push: { expenses: { $each: [createExpense._id], $position: 0 } } } */
     { $push: { expenses: createExpense._id } },
     { new: true }
   ).populate({ path: "expenses" });
   console.log(updateUserExpenses);
   res.json({ success: true, data: updateUserExpenses });
   console.log("File uploaded!");
-   
-  
-
-  /* const image={
-        filename:Date.now() +"_" +req.files?.file.name , 
-        data : req.files?.file.data
-    } */
 };
 
+// UPDATE
 export const updateExpense = async (req, res, next) => {
   let sampleFile;
   let uploadPath;
-
   if (req.files) {
     sampleFile = req.files.file;
   } else {
     sampleFile = "";
   }
-
   uploadPath = "assets/" + Date.now() + "_" + sampleFile.name;
   try {
     const updateExpense = await Expenses.findByIdAndUpdate(
-      req.params.id,{
-      amount: req.body.amount,
-      category: req.body.category,
-      date: req.body.date,
-      userId: req.body.userId,
-      reciept: uploadPath},
+      req.params.id,
+      {
+        amount: req.body.amount,
+        category: req.body.category,
+        date: req.body.date,
+        userId: req.body.userId,
+        reciept: uploadPath,
+      },
       { new: true }
     );
     res.send({ success: true, data: updateExpense });
@@ -78,29 +67,22 @@ export const updateExpense = async (req, res, next) => {
   }
 };
 
+// DELETE
 export const deleteExpense = async (req, res, next) => {
   try {
     const deleteExpense = await Expenses.findByIdAndDelete(req.params.id);
-
-/*     const getExpenses = await Expenses.find(); */
-
-    /* console.log(getExpenses) */
-
-   /*  const getExpensesIds=getExpenses.map(exp=>exp._id) */
-   /*  console.log(getExpensesIds) */
-/* 
-    const updateUser = await User.findByIdAndUpdate(req.user.id,{$set:{expenses:getExpensesIds}}); */
-    await User.findByIdAndUpdate(req.user.id,{
-      $pull: { expenses: req.params.id },
-    },{
-      new: true,
-    })
+    await User.findByIdAndUpdate(
+      req.user.id,
+      { $pull: { expenses: req.params.id } },
+      { new: true }
+    );
     res.send({ success: true, msg: "expense deleted" });
   } catch (err) {
     next(err);
   }
 };
 
+// GET BY ID
 export const getExpenseById = async (req, res, next) => {
   try {
     const getExpenseById = await Expenses.findById(req.params.id);
@@ -110,6 +92,7 @@ export const getExpenseById = async (req, res, next) => {
   }
 };
 
+// GET ALL
 export const getAllExpenses = async (req, res, next) => {
   try {
     const getAll = await Expenses.find();
@@ -122,11 +105,8 @@ export const getAllExpenses = async (req, res, next) => {
 // GET BY USER
 export const getExpensesByUser = async (req, res, next) => {
   try {
-
-    //console.log("USER",req.user);
     const userId = req.user._id;
     const userExpenses = await Expenses.find({ userId });
-    //console.log("user expenses -->", userExpenses)
     res.send({ success: true, data: userExpenses });
   } catch (err) {
     next(err);
