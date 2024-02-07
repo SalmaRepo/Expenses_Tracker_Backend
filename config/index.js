@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 
 function DBConnection(){
     mongoose.connect(
-        process.env.MONGODB_CONNECTION_STRING
+        'mongodb+srv://salmashaikh751:X1IBMWQwiQXjKARE@cluster0.n0zgkci.mongodb.net/expensesTracker'
     ).then(() => console.log("We connected to DB 😉"))
     .catch((err) => console.log(err));
 }
