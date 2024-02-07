@@ -20,7 +20,7 @@ app.use(fileUpload());
 DBConnection();
 
 //cors connection
-app.use(cors({ origin:["http://localhost:5173","https://expensestracker-frontend.onrender.com"], exposedHeaders: ["token"] }));
+app.use(cors({ origin:"https://expensestracker-frontend.onrender.com", exposedHeaders: ["token"] }));
 
 //routers
 app.use("/api/users", usersRouter);
