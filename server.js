@@ -20,7 +20,7 @@ app.use(fileUpload());
 DBConnection();
 
 //cors connection
-app.use(cors({ origin:"*", exposedHeaders: ["token"] }));
+app.use(cors({ origin:"*", exposedHeaders: ["token"],credentials: true}));
 
 //routers
 app.use("/api/users", usersRouter);
