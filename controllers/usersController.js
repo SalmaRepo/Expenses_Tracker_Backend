@@ -60,7 +60,7 @@ export const login = async (req, res, next) => {
       res.send({
         success: false,
         message: "This email is not registered, please create an account",
-      });
+      }); 
     }
   } catch (err) {
     next(err);
