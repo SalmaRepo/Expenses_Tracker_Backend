@@ -20,8 +20,8 @@ app.use(fileUpload());
 DBConnection();
 
 //cors connection
-app.use(cors({ origin:"*", exposedHeaders: ["token"],credentials: true}));
-
+app.use(cors({ origin:"https://expensestracker-frontend.onrender.com", exposedHeaders: ["token"],credentials: true}));
+app.options('*',cors())
 //routers
 app.use("/api/users", usersRouter);
 app.use("/api/expenses", expensesRouter);
